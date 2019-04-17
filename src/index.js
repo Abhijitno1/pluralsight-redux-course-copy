@@ -3,5 +3,13 @@ import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'; //Webpack can import CSS files too!
+import App from './components/app';
 
-render(<h1>React and Redux in ES6 Derived from Pluralsight Course</h1>, document.getElementById('app'));
+function refreshChild () {
+    var route = window.location.hash.substr(1);
+    //console.log('route', route);
+    render(<App route={route} />, document.getElementById('app'));
+}
+
+refreshChild();
+window.addEventListener('hashchange', refreshChild);
