@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link, IndexLink} from 'react-router';
 
 const HeaderControl = () => {
     return (
         <nav>
-            <a href="/#home">Home</a>
-            &nbsp;| <a href="/#courses">Courses</a>
-            &nbsp;| <a href="/#about">About</a>
+            <IndexLink to="/">Home</IndexLink>
+            &nbsp;| <Link to="/courses">Courses</Link>
+            &nbsp;| <Link to="/about">About</Link>
         </nav>
     );
 };
