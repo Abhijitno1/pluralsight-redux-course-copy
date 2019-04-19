@@ -7,4 +7,4 @@ import routes from './routes';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'; //Webpack can import CSS files too!
 import App from './components/app';
 
-render(<Router history={hashHistory} routes={routes} />, document.getElementById('app'));
+render(<Router history={browserHistory} routes={routes} />, document.getElementById('app'));
