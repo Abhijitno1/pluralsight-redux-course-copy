@@ -102,6 +102,19 @@ class CourseApi {
       }, delay);
     });
   }
+
+  static getCoursesSync() {
+    return [
+        {
+          id: "react-flux-building-applications",
+          title: "Building Applications in React and Flux"
+        },
+        {
+          id: "clean-code",
+          title: "Clean Code: Writing Code for Humans"
+        }
+    ];
+  }
 }
 
 export default CourseApi;

@@ -2,9 +2,14 @@
 import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 import { Router, browserHistory, hashHistory } from 'react-router';
-import routes from './routes';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'; //Webpack can import CSS files too!
+import routes from './routes';
+import configureStore from './store/configureStore';
 import App from './components/app';
 
-render(<Router history={browserHistory} routes={routes} />, document.getElementById('app'));
+const store = configureStore();
+render(<Provider store={store}>
+    <Router history={browserHistory} routes={routes} />
+</Provider>, document.getElementById('app'));
