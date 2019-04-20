@@ -7,9 +7,11 @@ import { Router, browserHistory, hashHistory } from 'react-router';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'; //Webpack can import CSS files too!
 import routes from './routes';
 import configureStore from './store/configureStore';
-import App from './components/app';
+import { loadCourses } from './actions/courseActions';
 
 const store = configureStore();
+store.dispatch(loadCourses());
+
 render(<Provider store={store}>
     <Router history={browserHistory} routes={routes} />
 </Provider>, document.getElementById('app'));
