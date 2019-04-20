@@ -15,7 +15,7 @@ class CoursesPage extends React.Component {
     }
 
     componentWillMount() {
-        this.props.dispatch(courseActions.getCoursesList());
+        this.props.getCoursesList();
     }
 
     onTitleChange(event) {
@@ -25,7 +25,7 @@ class CoursesPage extends React.Component {
     }
 
     onSaveClick(event) {
-        this.props.dispatch(courseActions.createCourse(this.state.course));
+        this.props.createCourse(this.state.course);
     }
 
     render() {
@@ -43,11 +43,19 @@ class CoursesPage extends React.Component {
 
 CoursesPage.propTypes = {
     courses: PropTypes.array.isRequired,
-    dispatch: PropTypes.func.isRequired
+    getCoursesList: PropTypes.func.isRequired,
+    createCourse: PropTypes.func.isRequired    
 };
 
 function mapStateToProps(state, ownProps) {
     return {courses: state.courses};
 }
 
-export default connect(mapStateToProps)(CoursesPage);
+function mapDispatchToProps(dispatch) {
+    return {
+        getCoursesList: () => dispatch(courseActions.getCoursesList()),
+        createCourse: (course) => dispatch(courseActions.createCourse(course))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage);
