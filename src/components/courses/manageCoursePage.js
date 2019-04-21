@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import CourseForm from './courseForm';
 import { authorsFormattedForDropdown } from '../../selectors/selectors';
+import * as CourseActions from '../../actions/courseActions';
 
 class ManageCoursePage extends React.Component {
     constructor(props, context) {
@@ -13,6 +14,7 @@ class ManageCoursePage extends React.Component {
 
         this.updateCourseState = this.updateCourseState.bind(this);
         this.cancelEdit = this.cancelEdit.bind(this);
+        this.saveCourse = this.saveCourse.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -21,9 +23,9 @@ class ManageCoursePage extends React.Component {
         }
     }
 
-    updateCourseState(evt) {
+    updateCourseState(evt) {        
         let fieldName = evt.target.name, fieldValue = evt.target.value;
-        let courseCopy = Object.assign({}, this.props.course);
+        let courseCopy = Object.assign({}, this.state.course);
         courseCopy[fieldName] = fieldValue;
         return this.setState({course: courseCopy});
     }
@@ -35,7 +37,8 @@ class ManageCoursePage extends React.Component {
 
     saveCourse(evt) {
         evt.preventDefault();
-        alert('aya ga maya');
+        this.props.saveCourse(this.state.course);
+        this.context.router.push('/courses');
     }
 
     render() {
@@ -52,7 +55,8 @@ class ManageCoursePage extends React.Component {
 
 ManageCoursePage.propTypes = {
     course: PropTypes.object.isRequired,
-    authors: PropTypes.array.isRequired
+    authors: PropTypes.array.isRequired,
+    saveCourse: PropTypes.func.isRequired
 };
 
 ManageCoursePage.contextTypes = {
@@ -77,4 +81,10 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-export default connect(mapStateToProps)(ManageCoursePage);
+function mapDispatchToProps(dispatch) {
+    return {
+        saveCourse: (course) => dispatch(CourseActions.saveCourse(course))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage);
