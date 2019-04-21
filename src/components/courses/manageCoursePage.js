@@ -9,7 +9,8 @@ class ManageCoursePage extends React.Component {
         super(props, context);
 
         this.state = {
-            course: Object.assign({}, this.props.course)
+            course: Object.assign({}, this.props.course),
+            errors: {}
         };
 
         this.updateCourseState = this.updateCourseState.bind(this);
@@ -35,8 +36,26 @@ class ManageCoursePage extends React.Component {
         this.context.router.push('/courses');
     }
 
-    saveCourse(evt) {
+    isCourseFormValid() {
+        let isValid = true, errors ={};
+
+        if (this.state.course.title.length < 5) {
+            isValid = false;
+            errors.title = 'Title is mandatory and must be at least 5 characters long';
+        }
+        if (!this.state.course.authorId) {
+            isValid = false;
+            errors.authorId = 'Author is mandatory';
+        }
+
+        if (isValid === false) this.setState({errors});
+        return isValid;
+    }
+
+    saveCourse(evt) {        
         evt.preventDefault();
+        if (!this.isCourseFormValid()) return;
+
         this.props.saveCourse(this.state.course);
         this.context.router.push('/courses');
     }
@@ -45,6 +64,7 @@ class ManageCoursePage extends React.Component {
         return (
             <CourseForm course={this.state.course}
                 allAuthors={this.props.authors}
+                errors={this.state.errors}
                 onChange={this.updateCourseState}
                 onCancel={this.cancelEdit}
                 onSave={this.saveCourse}
