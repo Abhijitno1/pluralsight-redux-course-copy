@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import toastr from 'toastr';
 import CourseForm from './courseForm';
 import { authorsFormattedForDropdown } from '../../selectors/selectors';
 import * as CourseActions from '../../actions/courseActions';
@@ -56,8 +57,14 @@ class ManageCoursePage extends React.Component {
         evt.preventDefault();
         if (!this.isCourseFormValid()) return;
 
-        this.props.saveCourse(this.state.course);
-        this.context.router.push('/courses');
+        this.props.saveCourse(this.state.course)
+        .then(()=> {
+            toastr.success('Course saved successfully');
+            this.context.router.push('/courses');
+        })
+        .catch((error)=> {
+            toastr.error(error);
+        });
     }
 
     render() {
