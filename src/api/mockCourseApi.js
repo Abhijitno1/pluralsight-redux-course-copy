@@ -74,7 +74,7 @@ class CourseApi {
           reject(`Title must be at least ${minCourseTitleLength} characters.`);
         }
         
-        let dupRecords = courses.filter(kors=> kors.title === course.title);
+        let dupRecords = courses.filter(kors=> kors.id !== course.id && kors.title === course.title);
         if (dupRecords.length > 0)
           reject(`There is already a course present by name ${course.title}`);
 

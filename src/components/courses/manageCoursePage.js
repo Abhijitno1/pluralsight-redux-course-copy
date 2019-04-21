@@ -11,7 +11,8 @@ class ManageCoursePage extends React.Component {
 
         this.state = {
             course: Object.assign({}, this.props.course),
-            errors: {}
+            errors: {},
+            isSaving: false
         };
 
         this.updateCourseState = this.updateCourseState.bind(this);
@@ -57,12 +58,15 @@ class ManageCoursePage extends React.Component {
         evt.preventDefault();
         if (!this.isCourseFormValid()) return;
 
+        this.setState({isSaving: true});
         this.props.saveCourse(this.state.course)
         .then(()=> {
+            this.setState({isSaving: false});
             toastr.success('Course saved successfully');
             this.context.router.push('/courses');
         })
         .catch((error)=> {
+            this.setState({isSaving: false});
             toastr.error(error);
         });
     }
@@ -75,6 +79,7 @@ class ManageCoursePage extends React.Component {
                 onChange={this.updateCourseState}
                 onCancel={this.cancelEdit}
                 onSave={this.saveCourse}
+                isSaving={this.state.isSaving}
             />
         );
     }

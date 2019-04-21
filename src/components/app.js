@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
 import HeaderControl from './common/headerControl';
+import {connect} from 'react-redux';
 
 class App extends React.Component {
     render() {
         return (
             <div className="container-fluid">
-                <HeaderControl />
+                <HeaderControl isLoading={this.props.isLoading}/>
                 { this.props.children }
             </div>
         );
@@ -13,7 +14,14 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-    children: PropTypes.object.isRequired
+    children: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool
 };
 
-export default App;
+function mapStateToProps(state, ownProps) {
+    return {
+        isLoading: state.ajaxCallsInProgress > 0
+    };
+}
+
+export default connect(mapStateToProps)(App);

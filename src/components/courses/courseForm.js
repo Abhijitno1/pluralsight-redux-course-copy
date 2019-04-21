@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import TextInput from '../common/textInput';
 import SelectInput from '../common/selectInput';
 
-const CourseForm = ({course, allAuthors, onChange, onSave, onCancel, errors}) => {
+const CourseForm = ({course, allAuthors, onChange, onSave, onCancel, errors, isSaving}) => {
     return (
         <form>
             <h1>Manage Course</h1>
@@ -14,7 +14,7 @@ const CourseForm = ({course, allAuthors, onChange, onSave, onCancel, errors}) =>
                 onChange={onChange} />
             <TextInput name="length" label="Length" value={course.length} error={errors.length}
                 onChange={onChange} />
-            <button onClick={onSave}>Save</button>
+            <button onClick={onSave}>{isSaving? 'Saving...': 'Save'}</button>
             <button onClick={onCancel} style={{marginLeft: "20px"}}>Cancel</button>
         </form>
     );
@@ -26,7 +26,8 @@ CourseForm.propTypes = {
     onChange: PropTypes.func.isRequired,
     onSave: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
-    errors: PropTypes.object
+    errors: PropTypes.object,
+    isSaving: PropTypes.bool
 };
 
 export default CourseForm;
