@@ -40,3 +40,13 @@ export function saveCourse(course) {
         });
     };
 }
+
+export function deleteCourse(courseId) {
+    return function(dispatch) {
+        return CourseApi.deleteCourse(courseId)
+        .then(() => dispatch(loadCourses()))
+        .catch(ex => { 
+            throw(ex); 
+        });
+    };
+}
