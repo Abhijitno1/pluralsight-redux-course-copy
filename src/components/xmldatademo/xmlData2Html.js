@@ -29,16 +29,17 @@ class XmlData2Html extends React.Component {
         let dataRootNode = $(parsedData).find('nested-root');
         let rows=[];
         dataRootNode.children().each((idx, resultNode)=> {
+            //set rollnum column data for current row
             let rowData = {
                 rollNum: $(resultNode).attr('rollnum')
             };
             $(resultNode).children().each((jdx, subjectNode) => {
+                //set other columns data of current row
                 rowData[$(subjectNode).prop('id')] = $(subjectNode).text();
             });
             rows.push(rowData);
         });
 
-        console.log(rows);
         this.setState({cols: this.state.cols, rows: rows});
     }
 
@@ -53,10 +54,12 @@ class XmlData2Html extends React.Component {
                     </thead>
                     <tbody>
                         {this.state.rows.map(row => { 
-                            <tr>
-                                <td>row1col1</td>
-                                <td>row1col2</td>
-                            </tr>;
+                            return (
+                                <tr key={row.rollNum}>
+                                    <td>{row.rollNum}</td>
+                                    {this.state.cols.map((col, idx) => <td key={idx}>{row[col.id]}</td>)}
+                                </tr>
+                            );
                         })}
                     </tbody>
                 </table>
